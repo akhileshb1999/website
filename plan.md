@@ -15,7 +15,7 @@ plus a landing/hero view.
 
 | Tab | Purpose | Content shape |
 |---|---|---|
-| **Home** | First impression — name, role, one-line pitch, current focus, links (email, LinkedIn, Twitter/X, Substack, resume) | Hero section, short intro, CTA into other tabs |
+| **Home** | First impression — name, role, one-line pitch, current focus, links (email, LinkedIn, Twitter/X, Substack) | Hero section, short intro, latest Substack posts, CTA into other tabs |
 | **About Me** | Professional background | Bio, experience timeline, education, coverage sectors, skills/tools (e.g. Excel modeling, Bloomberg, valuation methods) |
 | **Coverage** | Sector → company → thesis drill-down | Three-level structure (see below) |
 | **What Am I Reading** | What's being read | Books/articles/reports list, short takeaway per item, maybe tags (macro, sector, biography, etc.) |
@@ -29,10 +29,18 @@ Coverage is not a flat list — it's a three-level hierarchy:
    **Consumer**, **Logistics**, **Capital Markets**.
 2. **Sector page** — clicking a sector shows the companies followed
    within it (name, ticker, one-line current view/tag, last updated).
+   Includes a filter by view (Bullish/Bearish/Neutral/Watching) once
+   there are enough companies to warrant it.
 3. **Company page** — its own dedicated page/route with the full
    thesis: view (Bullish/Bearish/Neutral/Watching), detailed write-up,
    key catalysts/risks, conviction, valuation notes, date published/
-   updated. This is effectively a mini research-note page per company.
+   updated, and a changelog of view changes over time (e.g. "Upgraded
+   to Bullish — 12 Jun 2026"). This is effectively a living research
+   note per company. A standard disclaimer ("Views expressed are
+   personal opinions, not investment advice") appears in the footer of
+   every company page. Also gets an auto-generated OG/share image
+   (company + ticker + current view) for clean link previews when
+   shared externally.
 
 Routing sketch: `/coverage` → `/coverage/consumer` →
 `/coverage/consumer/titan`. Sectors are a fixed set of three for now,
@@ -80,7 +88,7 @@ content/
   about.md                    # long-form bio / experience / education
   coverage/
     consumer/
-      titan.md                 # frontmatter: company, ticker, sector, view, conviction, catalysts, date
+      titan.md                 # frontmatter: company, ticker, sector, view, conviction, catalysts, date, history
       dmart.md
     logistics/
       blue-dart.md
@@ -107,9 +115,15 @@ lastUpdated: 2026-07-20
 catalysts:
   - Wedding-season jewellery demand
   - Margin recovery in watches segment
+history:                # view changelog, newest first
+  - date: 2026-07-20
+    note: Upgraded to Bullish on margin recovery
+  - date: 2026-03-01
+    note: Initiated coverage — Neutral
 ```
 Body of the file = the full thesis write-up (markdown), rendered on the
-company's dedicated page.
+company's dedicated page. Disclaimer text and OG image generation are
+handled globally by the page template, not per-file.
 
 ## 6. Build Phases
 
@@ -126,41 +140,23 @@ company's dedicated page.
 6. **Deploy** — connect to Vercel (or GH Pages), custom domain if
    available.
 
-## 7. Suggestions
+## 7. Decisions (confirmed)
 
-- **Substack integration beyond a link**: pull the latest 2-3 post
-  titles onto Home via Substack's RSS feed, so Home shows recent writing
-  without manual updates. Optional — a plain link also works fine for v1.
-- **"Last updated" everywhere in Coverage**: since views change over
-  time, surface the date prominently on sector listing cards and company
-  pages, and consider a small changelog/history at the bottom of each
-  company page (e.g. "Upgraded to Bullish — 12 Jun 2026") so the site
-  reads as a living research log, not a static page.
-- **Search/filter on Coverage**: once there are enough companies, a
-  simple filter by sector + view (Bullish/Bearish/Neutral) on the
-  landing page helps a visitor scan quickly.
-- **Standard disclaimer**: a small footer note ("Views expressed are
-  personal opinions, not investment advice") on every company page —
-  worth having given the content is public stock opinions.
-- **Resume/CV link on Home or About Me**: common expectation for this
-  kind of professional site alongside Substack/LinkedIn.
-- **OG/share images**: since company thesis pages are shareable
-  individually (e.g. via Substack or Twitter/X), auto-generated OG image
-  per company page (ticker + view) makes shared links look polished.
+- Latest Substack posts pulled onto Home via RSS.
+- Changelog/history of view changes on each company page.
+- Sector + view filter on Coverage sector pages.
+- Standard "not investment advice" disclaimer in the footer of every
+  company page.
+- Auto-generated OG/share image per company page.
+- No resume/CV link — skipped by request.
 
 ## 8. Open Questions
 
 1. Any existing brand elements — name, preferred colors, logo, headshot,
-   resume PDF, Substack URL — to work from, or start from a neutral
-   default palette and placeholder links?
-2. Should stock views be public opinions (compliance-sensitive — worth a
-   disclaimer footer, e.g. "not investment advice") or anonymized/
-   illustrative? Recommend adding a standard disclaimer given the content.
-3. Any real content ready now (bio text, current companies per sector,
+   Substack URL — to work from, or start from a neutral default palette
+   and placeholder links?
+2. Any real content ready now (bio text, current companies per sector,
    reading list), or should the initial build ship with placeholder
    content to be swapped in after?
-4. Preferred hosting/domain — Vercel with a `vercel.app` subdomain,
+3. Preferred hosting/domain — Vercel with a `vercel.app` subdomain,
    custom domain, or GitHub Pages?
-5. Should company thesis pages be dated/versioned (a visible history of
-   view changes), or just show the current view with a single
-   "last updated" date?
