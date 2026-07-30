@@ -34,3 +34,20 @@ routine updates:
 ```bash
 npm run build
 ```
+
+## Deployment (GitHub Pages)
+
+The site is a static export (`output: "export"` in `next.config.ts`)
+and deploys automatically to GitHub Pages via
+`.github/workflows/deploy.yml` on every push to `main`.
+
+One-time setup (reuses your existing GitHub login, no new account
+needed):
+
+1. In the repo, go to **Settings → Pages**.
+2. Under **Build and deployment → Source**, select **GitHub Actions**.
+3. Push to `main` (or re-run the workflow from the **Actions** tab) —
+   the site will publish to `https://<owner>.github.io/website/`.
+
+The build sets `GITHUB_PAGES=true`, which makes `next.config.ts` apply
+the `/website` base path required for GitHub Pages project sites.
