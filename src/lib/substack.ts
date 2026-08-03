@@ -109,3 +109,128 @@ export async function getLatestSubstackPosts(
 
   return [];
 }
+
+export interface SubstackActivityItem {
+  type: "post" | "note";
+  title: string;
+  excerpt: string;
+  link: string;
+  date: string;
+}
+
+interface RawFeedItem {
+  type: string;
+  post?: {
+    title: string;
+    subtitle?: string;
+    canonical_url: string;
+    post_date: string;
+  };
+  comment?: {
+    id: number;
+    body: string;
+    handle: string;
+    date: string;
+  };
+}
+
+function truncate(text: string, max: number): string {
+  const clean = text.trim().replace(/\s+/g, " ");
+  return clean.length > max ? `${clean.slice(0, max).trim()}…` : clean;
+}
+
+async function fetchProfileId(handle: string): Promise<number | null> {
+  const res = await fetch(
+    `https://substack.com/api/v1/user/${handle}/public_profile`,
+    { next: { revalidate: 3600 }, headers: BROWSER_HEADERS }
+  );
+  if (!res.ok) return null;
+  const data = (await res.json()) as { id?: number };
+  return data.id ?? null;
+}
+
+/**
+ * Fetches Substack's own reader activity feed, which mixes posts and
+ * Notes together (Notes have no RSS feed, so this is the only way to
+ * pull them in). This is a private-looking but publicly-accessible
+ * endpoint, so it may change or get blocked without notice — callers
+ * should fall back to the RSS-based posts-only feed if this fails.
+ */
+async function fetchActivityFeed(
+  handle: string,
+  limit: number
+): Promise<SubstackActivityItem[] | null> {
+  const id = await fetchProfileId(handle);
+  if (!id) return null;
+
+  const res = await fetch(
+    `https://substack.com/api/v1/reader/feed/profile/${id}`,
+    { next: { revalidate: 3600 }, headers: BROWSER_HEADERS }
+  );
+  if (!res.ok) return null;
+
+  const data = (await res.json()) as { items?: RawFeedItem[] };
+  if (!data.items) return null;
+
+  const activity: SubstackActivityItem[] = data.items.flatMap(
+    (item): SubstackActivityItem[] => {
+      if (item.type === "post" && item.post) {
+        return [
+          {
+            type: "post",
+            title: item.post.title,
+            excerpt: item.post.subtitle ?? "",
+            link: item.post.canonical_url,
+            date: item.post.post_date,
+          },
+        ];
+      }
+      if (item.type === "comment" && item.comment) {
+        return [
+          {
+            type: "note",
+            title: "Note",
+            excerpt: truncate(item.comment.body, 160),
+            link: `https://substack.com/@${item.comment.handle}/note/c-${item.comment.id}`,
+            date: item.comment.date,
+          },
+        ];
+      }
+      return [];
+    }
+  );
+
+  return activity
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .slice(0, limit);
+}
+
+/**
+ * Fetches recent Substack activity (posts and Notes combined). Falls
+ * back to a posts-only list via the RSS proxy if the activity feed is
+ * unreachable, and to an empty array if that fails too.
+ */
+export async function getSubstackActivity(
+  substackUrl: string,
+  limit = 5
+): Promise<SubstackActivityItem[]> {
+  if (!substackUrl) return [];
+
+  const handle = new URL(substackUrl).hostname.split(".")[0];
+
+  try {
+    const activity = await fetchActivityFeed(handle, limit);
+    if (activity) return activity;
+  } catch (err) {
+    console.warn(`[substack] activity fetch threw:`, err);
+  }
+
+  const posts = await getLatestSubstackPosts(substackUrl, limit);
+  return posts.map((post) => ({
+    type: "post" as const,
+    title: post.title,
+    excerpt: "",
+    link: post.link,
+    date: post.pubDate,
+  }));
+}

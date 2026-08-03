@@ -1,10 +1,20 @@
 import Link from "next/link";
 import { getProfile } from "@/lib/content";
-import { getLatestSubstackPosts } from "@/lib/substack";
+import { getSubstackActivity } from "@/lib/substack";
+
+function formatDate(iso: string): string {
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return iso;
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+}
 
 export default async function HomePage() {
   const profile = getProfile();
-  const posts = await getLatestSubstackPosts(profile.links.substack);
+  const activity = await getSubstackActivity(profile.links.substack);
 
   return (
     <div className="flex flex-col gap-16">
@@ -70,20 +80,38 @@ export default async function HomePage() {
       </section>
 
       <section>
-        <h2 className="font-serif text-xl">Latest from Substack</h2>
-        {posts.length > 0 ? (
+        <h2 className="font-serif text-xl">Latest Activity</h2>
+        {activity.length > 0 ? (
           <ul className="mt-4 flex flex-col gap-3">
-            {posts.map((post) => (
-              <li key={post.link}>
+            {activity.map((item) => (
+              <li key={item.link}>
                 <a
-                  href={post.link}
+                  href={item.link}
                   target="_blank"
                   rel="noreferrer"
                   className="block rounded-2xl border border-border bg-card p-4 transition hover:border-foreground/30"
                 >
-                  <p className="font-serif">{post.title}</p>
-                  {post.pubDate && (
-                    <p className="mt-1 text-xs text-muted">{post.pubDate}</p>
+                  <div className="flex items-center gap-2">
+                    <span className="rounded-full border border-border px-2 py-0.5 font-mono text-[10px] uppercase tracking-wide text-muted">
+                      {item.type}
+                    </span>
+                    {item.date && (
+                      <p className="text-xs text-muted">
+                        {formatDate(item.date)}
+                      </p>
+                    )}
+                  </div>
+                  {item.type === "post" ? (
+                    <>
+                      <p className="mt-2 font-serif">{item.title}</p>
+                      {item.excerpt && (
+                        <p className="mt-1 text-sm text-muted">
+                          {item.excerpt}
+                        </p>
+                      )}
+                    </>
+                  ) : (
+                    <p className="mt-2 text-sm">{item.excerpt}</p>
                   )}
                 </a>
               </li>
@@ -92,7 +120,7 @@ export default async function HomePage() {
         ) : (
           <p className="mt-4 text-sm text-muted">
             Add a Substack URL to <code className="font-mono">profile.json</code>{" "}
-            to pull in recent posts here.
+            to pull in recent posts and notes here.
           </p>
         )}
       </section>
