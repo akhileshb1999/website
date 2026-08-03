@@ -26,8 +26,20 @@ export async function getLatestSubstackPosts(
 
   try {
     const feedUrl = new URL("/feed", substackUrl).toString();
-    const res = await fetch(feedUrl, { next: { revalidate: 3600 } });
-    if (!res.ok) return [];
+    const res = await fetch(feedUrl, {
+      next: { revalidate: 3600 },
+      headers: {
+        // Substack's CDN blocks requests with no/bot-like User-Agent
+        // (e.g. from CI runners), so spoof a normal browser request.
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+        Accept: "application/rss+xml, application/xml, text/xml, */*",
+      },
+    });
+    if (!res.ok) {
+      console.warn(`[substack] fetch failed: ${res.status} ${feedUrl}`);
+      return [];
+    }
 
     const xml = await res.text();
     const items = xml.match(/<item>[\s\S]*?<\/item>/g) ?? [];
@@ -37,7 +49,8 @@ export async function getLatestSubstackPosts(
       link: extractTag(item, "link"),
       pubDate: extractTag(item, "pubDate"),
     }));
-  } catch {
+  } catch (err) {
+    console.warn(`[substack] fetch threw:`, err);
     return [];
   }
 }
