@@ -139,22 +139,53 @@ function truncate(text: string, max: number): string {
   return clean.length > max ? `${clean.slice(0, max).trim()}…` : clean;
 }
 
+/**
+ * Fetches JSON from a Substack API endpoint. Tries a direct fetch
+ * first; if that fails (e.g. blocked by IP, as happens from CI
+ * runners), retries through Jina's reader proxy, whose servers do the
+ * actual request instead of ours.
+ */
+async function fetchJson<T>(url: string): Promise<T | null> {
+  try {
+    const res = await fetch(url, {
+      next: { revalidate: 3600 },
+      headers: BROWSER_HEADERS,
+    });
+    if (res.ok) return (await res.json()) as T;
+    console.warn(`[substack] direct fetch failed: ${res.status} ${url}`);
+  } catch (err) {
+    console.warn(`[substack] direct fetch threw for ${url}:`, err);
+  }
+
+  try {
+    const res = await fetch(`https://r.jina.ai/${url}`, {
+      next: { revalidate: 3600 },
+      headers: { "X-Return-Format": "text" },
+    });
+    if (!res.ok) {
+      console.warn(`[substack] jina proxy fetch failed: ${res.status} ${url}`);
+      return null;
+    }
+    return JSON.parse(await res.text()) as T;
+  } catch (err) {
+    console.warn(`[substack] jina proxy fetch threw for ${url}:`, err);
+    return null;
+  }
+}
+
 async function fetchProfileId(handle: string): Promise<number | null> {
-  const res = await fetch(
-    `https://substack.com/api/v1/user/${handle}/public_profile`,
-    { next: { revalidate: 3600 }, headers: BROWSER_HEADERS }
+  const data = await fetchJson<{ id?: number }>(
+    `https://substack.com/api/v1/user/${handle}/public_profile`
   );
-  if (!res.ok) return null;
-  const data = (await res.json()) as { id?: number };
-  return data.id ?? null;
+  return data?.id ?? null;
 }
 
 /**
  * Fetches Substack's own reader activity feed, which mixes posts and
  * Notes together (Notes have no RSS feed, so this is the only way to
  * pull them in). This is a private-looking but publicly-accessible
- * endpoint, so it may change or get blocked without notice — callers
- * should fall back to the RSS-based posts-only feed if this fails.
+ * endpoint, so it may change without notice — callers should fall back
+ * to the RSS-based posts-only feed if this fails.
  */
 async function fetchActivityFeed(
   handle: string,
@@ -163,14 +194,10 @@ async function fetchActivityFeed(
   const id = await fetchProfileId(handle);
   if (!id) return null;
 
-  const res = await fetch(
-    `https://substack.com/api/v1/reader/feed/profile/${id}`,
-    { next: { revalidate: 3600 }, headers: BROWSER_HEADERS }
+  const data = await fetchJson<{ items?: RawFeedItem[] }>(
+    `https://substack.com/api/v1/reader/feed/profile/${id}`
   );
-  if (!res.ok) return null;
-
-  const data = (await res.json()) as { items?: RawFeedItem[] };
-  if (!data.items) return null;
+  if (!data?.items) return null;
 
   const activity: SubstackActivityItem[] = data.items.flatMap(
     (item): SubstackActivityItem[] => {
