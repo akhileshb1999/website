@@ -14,7 +14,7 @@ function formatDate(iso: string): string {
 
 export default async function HomePage() {
   const profile = getProfile();
-  const activity = await getSubstackActivity(profile.links.substack);
+  const activity = await getSubstackActivity(profile.links.substack, 20);
 
   return (
     <div className="flex flex-col gap-16">
