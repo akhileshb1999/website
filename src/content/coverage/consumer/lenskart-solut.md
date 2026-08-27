@@ -6,7 +6,9 @@ view: "Bullish"
 conviction: "High"
 lastUpdated: "2026-08-03"
 catalysts:
-  - "Add catalysts once coverage is initiated"
+  - "Faster than expected improvement in EBITDA margins and continued momentum in SSSG"
+  - "Success of AI glasses"
+  - "Swift ramp up of new factory in Hyderabad "
 history:
   - date: "2026-05-03"
     note: "Added to watchlist"
