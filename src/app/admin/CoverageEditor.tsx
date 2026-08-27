@@ -108,22 +108,22 @@ export default function CoverageEditor({
     existing: CompanyRow | null
   ) {
     setStatus(null);
-    const slug = existing ? existing.slug : slugify(fields.company);
-    const path = existing ? existing.path : `${dirPath}/${slug}.md`;
-
-    if (!existing) {
-      const clash = await getFile(path, branch, token);
-      if (clash) {
-        setStatus({
-          type: "error",
-          message: `A file already exists at ${path}. Edit it from the list instead.`,
-        });
-        return;
-      }
-    }
-
-    const content = serializeCompanyMarkdown(fields, body);
     try {
+      const slug = existing ? existing.slug : slugify(fields.company);
+      const path = existing ? existing.path : `${dirPath}/${slug}.md`;
+
+      if (!existing) {
+        const clash = await getFile(path, branch, token);
+        if (clash) {
+          setStatus({
+            type: "error",
+            message: `A file already exists at ${path}. Edit it from the list instead.`,
+          });
+          return;
+        }
+      }
+
+      const content = serializeCompanyMarkdown(fields, body);
       await putFile(
         path,
         content,
@@ -136,6 +136,7 @@ export default function CoverageEditor({
       setEditingRow(null);
       loadRows();
     } catch (err) {
+      console.error("[admin] save failed:", err);
       setStatus({ type: "error", message: (err as Error).message });
     }
   }
@@ -155,6 +156,7 @@ export default function CoverageEditor({
       setEditingRow(null);
       loadRows();
     } catch (err) {
+      console.error("[admin] delete failed:", err);
       setStatus({ type: "error", message: (err as Error).message });
     }
   }
@@ -164,6 +166,7 @@ export default function CoverageEditor({
       <CompanyForm
         row={editingRow === "new" ? null : editingRow}
         sectorLabel={sector.label}
+        status={status}
         onCancel={() => setEditingRow(null)}
         onSave={handleSave}
         onDelete={editingRow !== "new" ? () => handleDelete(editingRow) : undefined}
@@ -241,13 +244,19 @@ export default function CoverageEditor({
 function CompanyForm({
   row,
   sectorLabel,
+  status,
   onSave,
   onDelete,
   onCancel,
 }: {
   row: CompanyRow | null;
   sectorLabel: string;
-  onSave: (fields: CompanyFields, body: string, existing: CompanyRow | null) => void;
+  status: Status;
+  onSave: (
+    fields: CompanyFields,
+    body: string,
+    existing: CompanyRow | null
+  ) => Promise<void>;
   onDelete?: () => void;
   onCancel: () => void;
 }) {
@@ -276,8 +285,11 @@ function CompanyForm({
 
   async function submit() {
     setSaving(true);
-    await onSave(fields, body, row);
-    setSaving(false);
+    try {
+      await onSave(fields, body, row);
+    } finally {
+      setSaving(false);
+    }
   }
 
   return (
@@ -288,6 +300,8 @@ function CompanyForm({
       >
         ← Back to list
       </button>
+
+      <StatusBanner status={status} />
 
       <Card>
         <div className="grid gap-4 sm:grid-cols-2">
