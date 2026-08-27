@@ -56,20 +56,23 @@ export default async function CompanyPage({
         </div>
       )}
 
-      <div className="prose-custom mt-8">
-        <ReactMarkdown
-          components={{
-            h2: (props) => (
-              <h2 className="mt-8 font-serif text-xl" {...props} />
-            ),
-            p: (props) => <p className="mt-4 leading-relaxed" {...props} />,
-            ul: (props) => (
-              <ul className="mt-3 list-disc space-y-1 pl-5" {...props} />
-            ),
-          }}
-        >
-          {company.body}
-        </ReactMarkdown>
+      <div className="mt-8">
+        <h2 className="font-serif text-lg">Investment Thesis</h2>
+        <div className="prose-custom mt-2">
+          <ReactMarkdown
+            components={{
+              h2: (props) => (
+                <h2 className="mt-8 font-serif text-xl" {...props} />
+              ),
+              p: (props) => <p className="mt-4 leading-relaxed" {...props} />,
+              ul: (props) => (
+                <ul className="mt-3 list-disc space-y-1 pl-5" {...props} />
+              ),
+            }}
+          >
+            {company.body}
+          </ReactMarkdown>
+        </div>
       </div>
 
       {company.history?.length > 0 && (
