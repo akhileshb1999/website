@@ -353,7 +353,7 @@ function CompanyForm({
 
       <Card>
         <span className="block text-xs font-mono uppercase tracking-wide text-muted">
-          Catalysts
+          Key Monitorables
         </span>
         <div className="mt-2 flex flex-col gap-2">
           {fields.catalysts.map((c, i) => (
@@ -376,7 +376,7 @@ function CompanyForm({
             variant="secondary"
             onClick={() => update("catalysts", [...fields.catalysts, ""])}
           >
-            + Add catalyst
+            + Add monitorable
           </Button>
         </div>
       </Card>

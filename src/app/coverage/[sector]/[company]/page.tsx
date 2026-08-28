@@ -47,7 +47,7 @@ export default async function CompanyPage({
 
       {company.catalysts?.length > 0 && (
         <div className="mt-6">
-          <h2 className="font-serif text-lg">Catalysts</h2>
+          <h2 className="font-serif text-lg">Key Monitorables</h2>
           <ul className="mt-2 list-disc space-y-1 pl-5 text-sm">
             {company.catalysts.map((catalyst) => (
               <li key={catalyst}>{catalyst}</li>
