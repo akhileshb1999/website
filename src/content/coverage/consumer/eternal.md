@@ -2,8 +2,8 @@
 company: "Eternal"
 ticker: "ETERNAL"
 sector: "Consumer"
-view: "Watching"
-conviction: "Low"
+view: "Bullish"
+conviction: "High"
 lastUpdated: "2026-09-08"
 catalysts:
   - "Blinkit store expansion"
