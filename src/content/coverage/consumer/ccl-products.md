@@ -2,23 +2,24 @@
 company: "CCL Products"
 ticker: "CCL"
 sector: "Consumer"
-view: "Watching"
-conviction: "Low"
+view: "Bullish"
+conviction: "Medium"
 lastUpdated: "2026-09-08"
 catalysts:
-  - "ROCE trajectory, as the better metric than margin percentage"
-  - "Volume growth stripped of green coffee price pass-through"
+  - "Volume growth trajectory"
   - "Utilisation of the expanded 36,000t Vietnam capacity"
-  - "Vietnam's share of consolidated earnings and the concentration it creates"
+  - "Growth in B2C business"
 history:
   - date: "2026-08-03"
     note: "Added to watchlist"
 ---
 
-• CCL is a business-to-business manufacturer rather than a consumer brand, producing private-label instant coffee for global brand owners, which inverts the usual analysis: there is no consumer franchise to defend, and the moat is cost position, capacity and customer stickiness in a business where switching supplier means requalifying a product. Being India's largest instant coffee manufacturer and exporter matters here for scale economics rather than for pricing power.
+• CCL Products is the world’s largest private-label instant coffee manufacturer, serving over 100 countries with a ~10% share of the global private-label instant coffee market and approximately 40% share of India’s export volume
 
-• Reported growth substantially overstates underlying performance because green coffee is passed through: FY26 revenue rose 43.5% to ₹4,457cr, but EBITDA margin compressed from ~18.1% to ~16.6% and PAT grew only 25.1%. When input prices inflate, revenue inflates faster than profit and margin optically compresses without the business deteriorating — which is why margin percentage is the wrong metric here and ROCE, which improved to 22.15% from 18.21%, is the right one [FY29E ROCE: __%; volume growth ex-price FY26: __%].
+• The company has long standing client relationships with global brands which provides high degree of revenue and margin visibility
 
-• The centre of gravity has moved to Vietnam: the Ngon subsidiary expanded capacity to 36,000 tonnes and reported revenue of ₹2,032cr with net profit of ₹314cr, against consolidated PAT of ₹388cr — meaning the majority of group earnings now originate outside India (subsidiary figures, before consolidation adjustments). Vietnam offers proximity to robusta supply and a lower cost base, so the concentration is deliberate, but it makes the earnings base a function of Vietnamese operating and tax conditions [Vietnam share of consolidated EBIT FY26: __%; utilisation on 36,000t: __%].
+• CCL has doubled its total capacity to ~77,000 TPA—including a new ₹400 cr spray-dried coffee plant in Andhra Pradesh and commissioned capacity in Vietnam (65% blended utilization) —positioning the company to deliver sustained 15% volume CAGR over the next 3–4 years.
 
-• Key risk: 1) Green coffee price volatility, which distorts reported growth in both directions and can compress margin faster than contracts reprice 2) Earnings concentration in a single overseas subsidiary, exposing the group to Vietnamese regulatory, tax and currency conditions.
+• The Company’s own brand in India i.e. Continental Coffee, now contributes ~10% of revenue, with aspirations to scale to 15% in the next 2–3 years. Branded sales yield 1.5–2x higher margins than B2B contracts. In India, the brand is among the top three instant coffee brands, anchored by ~250 blends and a rapidly expanding distribution footprint
+
+• Risks include volatility in green coffee costs and execution delays on new plants
