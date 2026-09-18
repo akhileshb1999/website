@@ -2,8 +2,8 @@
 company: "Hatsun Agro"
 ticker: "HATSUN"
 sector: "Consumer"
-view: "Watching"
-conviction: "Low"
+view: "Bullish"
+conviction: "Medium"
 lastUpdated: "2026-09-08"
 catalysts:
   - "Value-added products and ice cream as a share of revenue"
@@ -15,10 +15,8 @@ history:
     note: "Added to watchlist"
 ---
 
-• Dairy is fundamentally a procurement business: milk is bought daily from farmers at prices that are politically and seasonally sensitive, and sold into a market where the ability to pass cost through is slow and partial. Hatsun's advantage is the direct procurement network it has built across South India, which removes intermediary margin, combined with a portfolio deliberately skewed toward curd, ice cream and value-added milk rather than liquid milk — the difference between a commodity processor and a consumer business.
+• Hatsun is the largest private sector dairy company in India. Its advantage is the direct procurement network it has built across South India, which removes intermediary margin, combined with a portfolio deliberately skewed toward curd, ice cream and value-added milk rather than liquid milk that helps in driving better margins vs. peers.
 
-• That mix is visible in the margin gap against listed peers: Hatsun delivered an EBITDA margin of ~12.0% in FY26 against Dodla's 7.5%, a spread explained largely by value-added mix rather than procurement efficiency alone. Ice cream is the highest-margin element and also the most seasonal, so the earnings profile carries genuine intra-year volatility [VAP share of revenue FY26: __%; ice cream share: __%; FY29E EBITDA margin: __%].
-
-• FY26 revenue grew 14.5% to ₹9,959cr with PAT up 27.8%, the gap reflecting operating leverage as input costs eased. That asymmetry works in reverse when procurement inflates, which is the recurring pattern in this sector — margin is made or lost on the procurement cycle, and the durable question is how much of the mix shift toward value-added products can insulate against it [revenue CAGR FY26-29E: __%].
+• With the dairy cycle now at its bottom, Hatsun remains well positioned to capture the upturn as and when milk procurement prices start to ease and product realisations hold, driving margin expansion from here. Further, we expect strong growth in its VAP portfolio led by its ice-cream brand Aruns. 
 
 • Key risk: 1) Milk procurement cost inflation, which cannot be passed through quickly in a politically sensitive category 2) Ice cream seasonality and rising competition in the segment carrying the highest margin.
