@@ -1,14 +1,14 @@
-I'm an investment professional covering Indian and global equities, with a
-focus on Consumer, Logistics, and Capital Markets businesses. I spend my
-time on idea generation, building investment theses, and staying close to
-the businesses I follow through management meetings, channel checks, and
-financial modeling.
+I am an investment professional covering Indian equities, with a
+focus on Consumer, Logistics, and Capital Markets businesses. Most of my
+time is spent on idea generation, building investment theses, and staying close to the businesses I follow through management meetings, channel checks, and financial modeling.
+
+I enjoy analyzing business models and reading up about how companies have transformed to where they are right now. Outside of investing, I enjoy reading non-fiction, with behavioral finance being a particular interest of mine at the moment. 
 
 ## Experience
 
-- **[Role TBD], Ampersand Capital** (Present) — placeholder, update once
+- **Research Analyst, Ampersand Capital** (Present) — placeholder, update once
   role details are confirmed.
-- **Investment Associate, IKIGAI Asset Manager** (May 2025 – ) — Covered
+- **Investment Associate, IKIGAI Asset Manager** (May 2025 – Oct 2025) — Covered
   the Indian Consumer sector (mid & small caps) at this boutique asset
   manager, including leading coverage on the Alcoholic Beverage industry.
   Drove a $4M investment in a small-cap Alcobev player and sourced a $3M
