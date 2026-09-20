@@ -6,8 +6,9 @@ I enjoy analyzing business models and reading up about how companies have transf
 
 ## Experience
 
-- **Research Analyst, Ampersand Capital** (Present) — placeholder, update once
-  role details are confirmed.
+- **Research Analyst, Ampersand Capital** (Present) — I cover Indian Consumer, Capital Markets, and Logistics businesses, with a focus on new-age companies and emerging investment opportunities.
+My work involves generating ideas, conducting fundamental research, building financial models, and engaging with management teams and industry participants to develop investment theses.
+Alongside company-specific research, I work on thematic thought pieces around sectoral trends and have led investments across consumer retail, retail broking, and logistics.
 - **Investment Associate, IKIGAI Asset Manager** (May 2025 – Oct 2025) — Covered
   the Indian Consumer sector (mid & small caps) at this boutique asset
   manager, including leading coverage on the Alcoholic Beverage industry.
@@ -31,8 +32,7 @@ I enjoy analyzing business models and reading up about how companies have transf
 
 ## Tools & Methods
 
-- Financial modeling & valuation (DCF, trading comparables, merger
-  models)
-- Bloomberg (including API-driven workflow automation)
+- Financial modeling & valuation 
+- Bloomberg, Refinitiv, CapitalIQ, Factset
 - Primary research: management meetings, channel checks, expert calls
-- Forensic and quality-of-earnings reviews
+- Forensic and quality of earnings reviews
